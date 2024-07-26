@@ -28,3 +28,4 @@ document.getElementById('checkOrderButton').addEventListener('click', async func
     document.getElementById('orderStatus').textContent = 'Please enter the correct Invoice Number.';
   }
 });
+
