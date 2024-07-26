@@ -25,6 +25,6 @@ document.getElementById('checkOrderButton').addEventListener('click', async func
   } catch (error) {
     // Log the error and display a user-friendly message
     console.error('Error:', error);
-    document.getElementById('orderStatus').textContent = 'An error occurred while fetching the order status.';
+    document.getElementById('orderStatus').textContent = 'Please enter the correct Invoice Number.';
   }
 });
