@@ -1,15 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Connect to MongoDB
+// MongoDB connection
 const mongoURI = 'mongodb+srv://uortega1980:DataTest1@cluster0.mbwgnz0.mongodb.net/Invoice?retryWrites=true&w=majority';
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Could not connect to MongoDB', err));
 
-// Define a schema and a model
+// Define schema and model
 const invoiceStatusSchema = new mongoose.Schema({
   invoice_number: Number,
   order_status: String
@@ -17,19 +19,10 @@ const invoiceStatusSchema = new mongoose.Schema({
 
 const InvoiceStatus = mongoose.model('InvoiceStatus', invoiceStatusSchema, 'Invoices_Status');
 
-// Define a route to get all orders and statuses from MongoDB
-app.get('/orders', async (req, res) => {
-  try {
-    const orders = await InvoiceStatus.find({}, 'invoice_number order_status');
-    console.log('Fetched orders:', orders); // Log the result
-    res.send(orders);
-  } catch (err) {
-    console.error('Error fetching orders:', err);
-    res.status(500).send(`Error fetching orders: ${err.message}`);
-  }
-});
+// Middleware to serve static files
+app.use(express.static('public'));
 
-// Define a route to get order status by invoice number
+// Routes
 app.get('/order-status', async (req, res) => {
   const invoiceNumber = parseInt(req.query.invoice_number, 10);
   try {
@@ -44,8 +37,5 @@ app.get('/order-status', async (req, res) => {
   }
 });
 
-app.get('/', (req, res) => {
-  res.send('Successful response.');
-});
-
-app.listen(3000, () => console.log('Example app is listening on port 3000.'));
+// Start server
+app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
