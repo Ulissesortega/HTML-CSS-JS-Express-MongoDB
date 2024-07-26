@@ -33,7 +33,7 @@ app.get('/order-status', async (req, res) => {
       res.status(404).json({ message: 'Invoice not found' });
     }
   } catch (err) {
-    res.status(500).json({ message: `Error fetching order status: ${err.message}` });
+    res.status(500).json({ message: `Please enter the correct Invoice Number: ${err.message}` });
   }
 });
 
